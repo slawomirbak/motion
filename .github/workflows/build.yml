@@ -13,3 +13,7 @@ jobs:
         run: pwd
       - name: List Files in Directory
         run: ls
+      - name: check dontnet cli
+        run: dotnet
+      - name: check npm cli
+        run: npm
