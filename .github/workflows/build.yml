@@ -14,8 +14,8 @@ jobs:
       - name: List Files in Directory
         run: ls
       - name: Check dotnet build
-        run: dontnet build
-      - name: run what contains folder
+        run: dotnet build
+      - name: run what contains in folder
         run: ls MotionAPI -R
       - name: check npm cli version
         run: npm -v
