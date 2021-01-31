@@ -13,7 +13,9 @@ jobs:
         run: pwd
       - name: List Files in Directory
         run: ls
-      - name: check dontnet cli
-        run: dotnet
-      - name: check npm cli
-        run: npm
+      - name: Check dotnet build
+        run: dontnet build
+      - name: run what contains folder
+        run: ls MotionAPI -R
+      - name: check npm cli version
+        run: npm -v
