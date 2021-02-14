@@ -4,6 +4,11 @@ import { environment } from 'src/environments/environment';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 
+interface IBackendResponse<T> {
+  isSuccessful: boolean;
+  errorMessage: string;
+  data: T;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -12,60 +17,85 @@ export class AbstractHttpService<T> {
 
   protected baseEndpoint = '';
 
-  getList = (fitlers = {}): Observable<T[]> => {
+  getList = (fitlers = {}): Observable<IBackendResponse<T[]>> => {
     return this.httpClient
-      .get<T[]>(
+      .get<IBackendResponse<T[]>>(
         `${environment.apibaseUrl}${this.baseEndpoint}` +
           this.serializeFilters(fitlers)
       )
       .pipe(
-        map((res: T[]) => {
-          return res;
+        map((res: IBackendResponse<T[]>) => {
+          console.log(res);
+          if (!res.isSuccessful) {
+            throw new Error(res.errorMessage);
+          }
+          if (res.data) {
+            return res.data;
+          }
+          return;
         }),
         catchError(this.errorHandling)
       );
   }
 
-  getOne = (id: string, optional: string = ''): Observable<T> => {
+  getOne = (id: string, optional: string = '') => {
     return this.httpClient
-      .get<T>(
+      .get<IBackendResponse<T>>(
         `${environment.apibaseUrl}${this.baseEndpoint}/${id}${optional}`
       )
       .pipe(
-        map((res: T) => {
-          return res;
+        map((res: IBackendResponse<T>) => {
+          if (!res.isSuccessful) {
+            throw new Error(res.errorMessage);
+          }
+          if (res.data) {
+            return res.data;
+          }
+          return;
         }),
         catchError(this.errorHandling)
       );
   };
 
-  put = (data: T, optional: string = ''): Observable<T> => {
+  put = (data: T, optional: string = '') => {
     return this.httpClient
-      .put<T>(
+      .put<IBackendResponse<T>>(
         `${environment.apibaseUrl}${this.baseEndpoint}${optional}`,
         data
       )
       .pipe(
-        map((res: T) => {
-         return res;
+        map((res: IBackendResponse<T>) => {
+          if (!res.isSuccessful) {
+            throw new Error(res.errorMessage);
+          }
+          if (res.data) {
+            return res.data;
+          }
+          return;
         }),
         catchError(this.errorHandling)
       );
   }
 
-  post = (data: T, optional: string = ''): Observable<T> => {
+  post = (data: T, optional: string = ''): Observable<IBackendResponse<T>> => {
     return this.httpClient
-      .post<T>(
+      .post<IBackendResponse<T>>(
         `${environment.apibaseUrl}${this.baseEndpoint}${optional}`,
         data
       )
       .pipe(
-        map((res: T) => {
-          return res;
+        map((res: IBackendResponse<T>) => {
+          if (!res.isSuccessful) {
+            throw new Error(res.errorMessage);
+          }
+          if (res.data) {
+            return res.data;
+          }
+          return;
         }),
         catchError(this.errorHandling)
       );
-  }
+  };
 
   private errorHandling(error: any): Observable<any> {
     console.error(error);

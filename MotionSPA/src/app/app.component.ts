@@ -1,18 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractHttpService } from './services/abstract-http.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { TricksService } from './services/tricky.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent{
   title = 'MotionSPA';
 
-  constructor(private abstract: AbstractHttpService) {}
-  ngOnInit(): void {
-    this.abstract.getTest().subscribe(data => {
-      console.log(data);
-    })
-  }
+  constructor() {}
 }

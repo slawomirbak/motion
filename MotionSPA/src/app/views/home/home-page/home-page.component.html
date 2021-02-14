@@ -1,0 +1,16 @@
+<h1>Trick form</h1>
+
+<h3>Add Trick</h3>
+<form [formGroup]="trickForm">
+  <input formControlName="trick" type="text"/>
+  <button (click)="saveTrick($event)">Add trick</button>
+</form>
+
+
+
+<h4>Trick list</h4>
+<div *ngIf="tricks$ | async as tricks">
+  <p *ngFor="let trick of tricks">
+    {{trick.name}}
+  </p>
+</div>
